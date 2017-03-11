@@ -1,3 +1,0 @@
-fab_lab_homepage:
-    path:     /
-    defaults: { _controller: FabLabBundle:Default:index }

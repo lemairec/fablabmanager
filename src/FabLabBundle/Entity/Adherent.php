@@ -34,4 +34,16 @@ class Adherent
      * @ORM\Column(name="subname", type="string", length=255)
      */
     public $subname;
+
+    /**
+     * @var \Datetime 
+     *
+     * @ORM\Column(name="end_adhesion", type="date")
+     */
+    public $end_adhesion;
+
+    function __construct ($name, $subname){
+        $this->name = $name;
+        $this->subname = $subname;
+    }
 }

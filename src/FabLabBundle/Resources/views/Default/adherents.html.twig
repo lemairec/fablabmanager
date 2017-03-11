@@ -1,0 +1,25 @@
+{% extends 'FabLabBundle::base_fablab.html.twig' %}
+
+{% block body %}
+
+<div class="container bs-docs-container">
+    <div class="panel panel-default", style="width:100%">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <button type="button" class="btn btn-primary" onclick="window.location.href='/adherent/edit'">ADD</button>
+        </div>
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Subname</th>
+            </tr>
+            {% for adherent in adherents %}
+            <tr>
+                <td>{{adherent.id}}</td><td>{{adherent.name}}</td><td>{{adherent.subname}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,5 +1,6 @@
 fab_lab:
-    resource: "@FabLabBundle/Resources/config/routing.yml"
+    resource: "@FabLabBundle/Controller"
+    type: annotation
     prefix:   /
 
 app:
