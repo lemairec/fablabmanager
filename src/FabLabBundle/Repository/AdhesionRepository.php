@@ -1,6 +1,8 @@
 <?php
 
 namespace FabLabBundle\Repository;
+use FabLabBundle\Entity\Adhesion;
+use \DateTime;
 
 /**
  * AdhesionRepository
@@ -10,4 +12,32 @@ namespace FabLabBundle\Repository;
  */
 class AdhesionRepository extends \Doctrine\ORM\EntityRepository
 {
+    function add($adherent_id, $date, $type){
+        $em = $this->getEntityManager();
+        $adherent = $em->getRepository('FabLabBundle:Adherent')->findOneBy(array('id' => $adherent_id));;
+        $adhesion = new Adhesion();
+        $adhesion->date = new Datetime($date);
+        if($adherent->type == 0){
+            $type = 0;
+        }
+        $adhesion->type = $type;
+        if($type == 0){
+            $adhesion->prix = 100;
+            $adhesion->cf = 32;
+        } else if($type == 1){
+            $adhesion->prix = 30;
+            $adhesion->cf = 16;
+        } else {
+            $adhesion->prix = 15;
+            $adhesion->cf = 16;
+        }
+        $adhesion->adherent = $adherent;
+        $adherent->cf += $adhesion->cf;
+        $adherent->end_adhesion = new Datetime($adhesion->date->format('Y-m-d'));
+        $adherent->end_adhesion->modify("+1 year");
+        $em->persist($adhesion);
+        $em->persist($adherent);
+        $em->flush();
+        return $adherent;
+    }
 }

@@ -45,10 +45,12 @@ class DefaultController extends Controller
      */
     public function initAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $adherent = new Adherent("lemaire", "clément");
-        $em->persist($adherent);
-        $em->flush();
+        $adherentsRepository = $this->getDoctrine()->getManager()->getRepository('FabLabBundle:Adherent');
+        $adhesionRepository = $this->getDoctrine()->getManager()->getRepository('FabLabBundle:Adhesion');
+        $adherent = $adherentsRepository->add("Clément", "Lemaire", 1);
+        $adhesionRepository->add($adherent->id, "2010-01-01", 1);
+        $adherent = $adherentsRepository->add("-", "NTN", 0);
+        $adhesionRepository->add($adherent->id, "2010-01-03", 1);
         return $this->redirectToRoute('homepage');
     }
 }

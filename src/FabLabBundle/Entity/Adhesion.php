@@ -19,13 +19,13 @@ class Adhesion
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
      */
-    private $id;
+    public $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="FabLabBundle\Entity\Adherent")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $adherent;
+    public $adherent;
 
 
     /**
@@ -33,103 +33,29 @@ class Adhesion
      *
      * @ORM\Column(name="date", type="date")
      */
-    private $date;
+    public $date;
 
     /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255)
      */
-    private $type;
+    public $type;
 
     /**
-     * @var float
+     * @var int
      *
-     * @ORM\Column(name="prix", type="float")
+     * @ORM\Column(name="prix", type="integer")
      */
-    private $prix;
-
+    public $prix;
 
     /**
-     * Get id
+     * @var int
      *
-     * @return int
+     * @ORM\Column(name="cf", type="integer")
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    public $cf;
 
-    /**
-     * Set date
-     *
-     * @param \DateTime $date
-     *
-     * @return Adhesion
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
 
-        return $this;
-    }
-
-    /**
-     * Get date
-     *
-     * @return \DateTime
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
-     * Set type
-     *
-     * @param string $type
-     *
-     * @return Adhesion
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Set prix
-     *
-     * @param float $prix
-     *
-     * @return Adhesion
-     */
-    public function setPrix($prix)
-    {
-        $this->prix = $prix;
-
-        return $this;
-    }
-
-    /**
-     * Get prix
-     *
-     * @return float
-     */
-    public function getPrix()
-    {
-        return $this->prix;
-    }
 }
 

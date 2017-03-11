@@ -1,6 +1,7 @@
 <?php
 
 namespace FabLabBundle\Repository;
+use FabLabBundle\Entity\Adherent;
 
 /**
  * AdherentRepository
@@ -10,5 +11,16 @@ namespace FabLabBundle\Repository;
  */
 class AdherentRepository extends \Doctrine\ORM\EntityRepository
 {
+    function add($name, $surname, $type){
+        $em = $this->getEntityManager();
+        $adherent = new Adherent($name, $surname, $type);
+        $em->persist($adherent);
+        $em->flush();
+        return $adherent;
+    }
+
+    function addcf($adherent_id, $cf){
+
+    }
 }
 

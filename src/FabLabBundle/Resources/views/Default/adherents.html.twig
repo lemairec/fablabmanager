@@ -11,12 +11,24 @@
         <table class="table">
             <tr>
                 <th>Id</th>
-                <th>Name</th>
-                <th>Subname</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Type</th>
+                <th>Date Fin Adhesion</th>
+                <th>CT</th>
             </tr>
             {% for adherent in adherents %}
             <tr>
-                <td>{{adherent.id}}</td><td>{{adherent.name}}</td><td>{{adherent.subname}}</td>
+                <td>{{adherent.id}}</td>
+                <td>{{adherent.name}}</td>
+                <td>{{adherent.surname}}</td>
+                {% if adherent.type == 0 %}
+                    <td>pro</td>
+                {% else %}
+                    <td>particulier</td>
+                {% endif%}
+                <td>{{adherent.get_end_adhesion()}}</td>
+                <td>{{adherent.cf}}</td>
             </tr>
             {% endfor %}
         </table>
