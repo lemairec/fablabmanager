@@ -12,9 +12,9 @@ use \DateTime;
  */
 class AdhesionRepository extends \Doctrine\ORM\EntityRepository
 {
-    function add($adherent_id, $date, $type){
+    function add($adherent_no, $date, $type){
         $em = $this->getEntityManager();
-        $adherent = $em->getRepository('FabLabBundle:Adherent')->findOneBy(array('id' => $adherent_id));;
+        $adherent = $em->getRepository('FabLabBundle:Adherent')->findOneByNo($adherent_no);
         $adhesion = new Adhesion();
         $adhesion->date = new Datetime($date);
         if($adherent->type == 0){
@@ -39,5 +39,14 @@ class AdhesionRepository extends \Doctrine\ORM\EntityRepository
         $em->persist($adherent);
         $em->flush();
         return $adherent;
+    }
+
+    function getAllForAdherent($adherentId){
+        $query = $this->createQueryBuilder('p')
+            ->where('p.adherent = :adherent')
+            ->setParameter('adherent', $adherentId)
+            ->getQuery();
+
+        return $query->getResult();
     }
 }

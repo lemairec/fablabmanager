@@ -23,7 +23,6 @@ class DefaultController extends Controller
     public function adherentsAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $adherents = $em->getRepository('FabLabBundle:Adherent')->findAll();
 
         return $this->render('FabLabBundle:Default:adherents.html.twig', array(
@@ -32,12 +31,32 @@ class DefaultController extends Controller
 
 
     }
+
     /**
-     * @Route("/adherent/edit")
+     * @Route("/produits")
      */
-    public function adherentEditAction()
+    public function produitsAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $produits = $em->getRepository('FabLabBundle:Produit')->findAll();
+
+        return $this->render('FabLabBundle:Default:produits.html.twig', array(
+            'produits' => $produits,
+        ));
+    }
+
+    /**
+     * @Route("/adherent/edit/{adherent_no}")
+     */
+    public function adherentEditAction($adherent_no)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $adherent = $em->getRepository('FabLabBundle:Adherent')->findOneByNo($adherent_no);
+        $adhesions = $em->getRepository('FabLabBundle:Adhesion')->getAllForAdherent($adherent_no);
+        return $this->render('FabLabBundle:Default:adherent_edit.html.twig', array(
+            'adherent' => $adherent,
+            'adhesions' => $adhesions
+        ));
     }
 
     /**
@@ -45,12 +64,6 @@ class DefaultController extends Controller
      */
     public function initAction()
     {
-        $adherentsRepository = $this->getDoctrine()->getManager()->getRepository('FabLabBundle:Adherent');
-        $adhesionRepository = $this->getDoctrine()->getManager()->getRepository('FabLabBundle:Adhesion');
-        $adherent = $adherentsRepository->add("Clément", "Lemaire", 1);
-        $adhesionRepository->add($adherent->id, "2010-01-01", 1);
-        $adherent = $adherentsRepository->add("-", "NTN", 0);
-        $adhesionRepository->add($adherent->id, "2010-01-03", 1);
         return $this->redirectToRoute('homepage');
     }
 }

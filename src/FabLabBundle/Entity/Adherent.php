@@ -62,13 +62,12 @@ function normalizeChars($s) {
 class Adherent
 {
     /**
-     * @var guid
+     * @var int
      *
-     * @ORM\Column(name="id", type="guid")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
      */
-    public $id;
+    public $no;
 
     /**
      * @var string
@@ -97,7 +96,14 @@ class Adherent
      * @ORM\Column(name="type", type="integer", unique=false)
      */
     public $type;
-    
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="actif", type="boolean", unique=false)
+     */
+    public $actif;
+
     /**
      * @var \Datetime 
      *
@@ -123,6 +129,7 @@ class Adherent
     function __construct ($name, $surname, $type){
         $this->name = $name;
         $this->surname = $surname;
+        $this->actif = True;
         $this->hash = normalizeChars($name . $surname); 
         $this->type = $type;
         $this->cf = 0;

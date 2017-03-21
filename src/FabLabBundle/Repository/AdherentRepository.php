@@ -11,16 +11,14 @@ use FabLabBundle\Entity\Adherent;
  */
 class AdherentRepository extends \Doctrine\ORM\EntityRepository
 {
-    function add($name, $surname, $type){
+    function add($no, $name, $surname, $type){
         $em = $this->getEntityManager();
         $adherent = new Adherent($name, $surname, $type);
+        $adherent->no = $no;
         $em->persist($adherent);
         $em->flush();
         return $adherent;
     }
 
-    function addcf($adherent_id, $cf){
-
-    }
 }
 

@@ -10,25 +10,23 @@
         </div>
         <table class="table">
             <tr>
-                <th>No</th>
-                <th>Prénom</th>
-                <th>Nom</th>
+                <th>Id</th>
+                <th>Description</th>
                 <th>Type</th>
-                <th>Date Fin Adhesion</th>
-                <th>CT</th>
+                <th>Price</th>
+                <th>Unite</th>
             </tr>
-            {% for adherent in adherents %}
+            {% for produit in produits %}
             <tr>
-                <td><a href="/adherent/edit/{{adherent.no}}">{{adherent.no}}</td>
-                <td>{{adherent.name}}</td>
-                <td>{{adherent.surname}}</td>
-                {% if adherent.type == 0 %}
+                <td><a href="/produit/edit/{{produit.id}}">{{produit.id}}</td>
+                <td>{{produit.description}}</td>
+                {% if produit.type == 0 %}
                     <td>pro</td>
                 {% else %}
                     <td>particulier</td>
                 {% endif%}
-                <td>{{adherent.get_end_adhesion()}}</td>
-                <td>{{adherent.cf}}</td>
+                <td>{{produit.price}}</td>
+                <td>{{produit.unite}}</td>
             </tr>
             {% endfor %}
         </table>
