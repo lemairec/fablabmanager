@@ -96,6 +96,15 @@ class Adherent
      * @ORM\Column(name="type", type="integer", unique=false)
      */
     public $type;
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="price_categorie", type="string", length=1)
+     */
+    public $price_categorie;
+
+
 
     /**
      * @var bool

@@ -25,6 +25,7 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
         $adherent->cf = $adherent->cf - $achat->price;
         $em->persist($adherent);
         $em->flush();
+        $em->getRepository('FabLabBundle:Adherent')->update_cf($adherent_no);
         return $achat;
 
     }

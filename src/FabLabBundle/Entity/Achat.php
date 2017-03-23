@@ -67,7 +67,7 @@ class Achat
         }
     }
     
-    function getDate(){
+    function getDateStr(){
         return $this->date->format(' d/m/Y'); // for example
     }
 

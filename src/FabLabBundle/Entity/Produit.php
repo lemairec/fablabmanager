@@ -31,9 +31,9 @@ class Produit
     /**
      * @var int
      *
-     * @ORM\Column(name="type", type="integer")
+     * @ORM\Column(name="type", type="string", length=1)
      */
-    public $type;
+    public $categorie;
 
     /**
      * @var float
@@ -48,5 +48,9 @@ class Produit
      * @ORM\Column(name="unite", type="string", length=255)
      */
     public $unite;
+
+    public function getLabel(){
+        return $this->categorie." ".$this->name;
+    }
 }
 

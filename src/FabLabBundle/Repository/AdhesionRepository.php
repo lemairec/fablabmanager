@@ -22,23 +22,22 @@ class AdhesionRepository extends \Doctrine\ORM\EntityRepository
         }
         $adhesion->type = $type;
         if($type == 0){
-            $adhesion->prix = 100;
+            $adhesion->price = 100;
             $adhesion->cf = 32;
         } else if($type == 1){
-            $adhesion->prix = 30;
+            $adhesion->price = 30;
             $adhesion->cf = 16;
         } else {
-            $adhesion->prix = 15;
+            $adhesion->price = 15;
             $adhesion->cf = 16;
         }
         $adhesion->adherent = $adherent;
-        $adherent->cf += $adhesion->cf;
         $adherent->end_adhesion = new Datetime($adhesion->date->format('Y-m-d'));
         $adherent->end_adhesion->modify("+1 year");
         $em->persist($adhesion);
         $em->persist($adherent);
         $em->flush();
-        return $adherent;
+        $em->getRepository('FabLabBundle:Adherent')->update_cf($adherent_no);
     }
 
     function getAllForAdherent($adherentId){

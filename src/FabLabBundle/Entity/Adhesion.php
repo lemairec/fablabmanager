@@ -45,9 +45,9 @@ class Adhesion
     /**
      * @var int
      *
-     * @ORM\Column(name="prix", type="integer")
+     * @ORM\Column(name="price", type="integer")
      */
-    public $prix;
+    public $price;
 
     /**
      * @var int

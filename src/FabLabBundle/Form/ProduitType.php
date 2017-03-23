@@ -26,10 +26,10 @@ class ProduitType extends AbstractType
         $builder
             ->add('id',         IntegerType::class)
             ->add('name',       TextType::class)
-            ->add('type',       ChoiceType::class, array(
+            ->add('categorie',       ChoiceType::class, array(
                 'choices'  => array(
-                    'Particulier' => 1,
-                    'Pro' => 0,
+                    'A' => 'A',
+                    'B' => 'B',
                 ),
             ))
             ->add('price',      NumberType::class, array('label' => 'price (€)'))

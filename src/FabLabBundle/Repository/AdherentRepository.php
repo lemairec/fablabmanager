@@ -15,9 +15,38 @@ class AdherentRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $adherent = new Adherent($name, $surname, $type);
         $adherent->no = $no;
+        if($type == 1){
+            $adherent->price_categorie = 'A';
+        } else {
+            $adherent->price_categorie = 'B';
+        }
         $em->persist($adherent);
         $em->flush();
         return $adherent;
+    }
+
+    function update_cf($adherent_no){
+        $em = $this->getEntityManager();
+        $adhesionRep = $em->getRepository('FabLabBundle:Adhesion');
+        $query = $adhesionRep->createQueryBuilder('p')
+             ->select("sum(p.cf)")
+            ->where('p.adherent = :adherent')
+            ->setParameter('adherent', $adherent_no)
+            ->getQuery();
+        $adhesion_cf = floatval($query->getResult()[0][1]);
+        $achatRep = $em->getRepository('FabLabBundle:Achat');
+        $query = $achatRep->createQueryBuilder('p')
+             ->select("sum(p.price)")
+            ->where('p.adherent = :adherent')
+            ->setParameter('adherent', $adherent_no)
+            ->getQuery();
+        $achat_cf = floatval($query->getResult()[0][1]);
+        echo($adhesion_cf);
+        echo($achat_cf);
+        $adherent = $this->findOneByNo($adherent_no);
+        $adherent->cf = $adhesion_cf - $achat_cf;
+        $em->persist($adherent);
+        $em->flush();
     }
 
 }

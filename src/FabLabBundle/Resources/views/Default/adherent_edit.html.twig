@@ -60,7 +60,7 @@
                     {% else %}
                     <td>particulier</td>
                     {% endif%}
-                    <td>{{adhesion.prix}}</td>
+                    <td>{{adhesion.price}}</td>
                     <td>{{adhesion.cf}}</td>
                 </tr>
                 {% endfor %}
@@ -72,7 +72,7 @@
             <!-- Default panel contents -->
             <div class="panel-heading">
                 Achat
-                <button type="button" class="btn btn-primary" onclick="window.location.href='/achat/edit'">ADD</button>
+                <button type="button" class="btn btn-primary" onclick="window.location.href='/achat/edit/0?adherent_no={{adherent.no}}'">ADD</button>
             </div>
             <table class="table">
                 <tr>
@@ -83,7 +83,7 @@
                 </tr>
                 {% for achat in achats %}
                 <tr>
-                    <td>{{achat.getDate()}}</td>
+                    <td>{{achat.getDateStr()}}</td>
                     <td>{{achat.produit.name}}</td>
                     <td>{{achat.qty}} {{achat.produit.unite}}</td>
                     <td>{{achat.price}} CF</td>

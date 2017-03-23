@@ -14,6 +14,7 @@
                 <th>Prénom</th>
                 <th>Nom</th>
                 <th>Type</th>
+                <th>Cat</th>
                 <th>Date Fin Adhesion</th>
                 <th>CT</th>
             </tr>
@@ -27,6 +28,7 @@
                 {% else %}
                     <td>particulier</td>
                 {% endif%}
+                <td>{{adherent.price_categorie}}</td>
                 <td>{{adherent.get_end_adhesion()}}</td>
                 <td>{{adherent.cf}}</td>
             </tr>

@@ -20,11 +20,7 @@
             <tr>
                 <td><a href="/produit/edit/{{produit.id}}">{{produit.id}}</td>
                 <td>{{produit.name}}</td>
-                {% if produit.type == 0 %}
-                    <td>pro</td>
-                {% else %}
-                    <td>particulier</td>
-                {% endif%}
+                <td>{{produit.categorie}}</td>
                 <td>{{produit.price}}</td>
                 <td>{{produit.unite}}</td>
             </tr>

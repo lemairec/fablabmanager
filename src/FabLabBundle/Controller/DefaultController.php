@@ -7,7 +7,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use FabLabBundle\Entity\Adherent;
 use FabLabBundle\Entity\Produit;
+use FabLabBundle\Entity\Achat;
 use FabLabBundle\Form\ProduitType;
+use FabLabBundle\Form\AchatType;
 
 class DefaultController extends Controller
 {
@@ -46,7 +48,6 @@ class DefaultController extends Controller
         } else {
             $produit = $em->getRepository('FabLabBundle:Produit')->findOneById($edit_id);
         }
-        $produit->date = new \Datetime();
 
         $form = $this->get('form.factory')->create(ProduitType::class, $produit);
         $form->handleRequest($request);
@@ -65,7 +66,36 @@ class DefaultController extends Controller
             'form' => $form->createView(),
         ));
     }
+    /**
+     * @Route("/achat/edit/{achat_id}")
+     */
+    public function achatEditAction($achat_id, Request $request)
+    {
+        $adherent_no = intval($request->query->get('adherent_no'));
+        $em = $this->getDoctrine()->getManager();
+        if($achat_id == 0){
+            $achat = new Achat();
+            $achat->date = new \Datetime();
+            $achat->adherent = $em->getRepository("FabLabBundle:Adherent")->findOneByNo($adherent_no);
+        } else {
+            $achat = $em->getRepository('FabLabBundle:Achat')->findOneById($achat_id);
+        }
+        $form = $this->createForm(AchatType::class, $achat, array(
+            'categorie' => $achat->adherent->price_categorie
+        ));
+        $form->handleRequest($request);
 
+
+        if ($form->isValid()) {
+            $em->persist($achat);
+            $em->flush();
+            $em->getRepository("FabLabBundle:Adherent")->update_cf($adherent_no);
+            return $this->redirectToRoute('adherent', array('adherent_no' => $adherent_no));
+        }
+        return $this->render('FabLabBundle:Default:add.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
 
     /**
      * @Route("/produits", name="produits")
@@ -81,7 +111,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/adherent/edit/{adherent_no}")
+     * @Route("/adherent/edit/{adherent_no}", name="adherent")
      */
     public function adherentEditAction($adherent_no)
     {

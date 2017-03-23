@@ -11,12 +11,12 @@ use FabLabBundle\Entity\Produit;
  */
 class ProduitRepository extends \Doctrine\ORM\EntityRepository
 {
-    function add($id, $name, $type, $price, $unite){
+    function add($id, $name, $categorie, $price, $unite){
         $em = $this->getEntityManager();
         $produit = new Produit();
         $produit->id = $id;
         $produit->name = $name;
-        $produit->type = $type;
+        $produit->categorie = $categorie;
         $produit->price = $price;
         $produit->unite = $unite;
         $em->persist($produit);
