@@ -18,7 +18,11 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('FabLabBundle:Default:index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $nb_adherents = $em->getRepository('FabLabBundle:Adherent')->getNb();
+        return $this->render('FabLabBundle:Default:index.html.twig', array(
+            'nb_adherents' => $nb_adherents
+        ));
     }
 
 

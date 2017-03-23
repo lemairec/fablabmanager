@@ -13,8 +13,13 @@ class AdherentRepository extends \Doctrine\ORM\EntityRepository
 {
     function add($no, $name, $surname, $type){
         $em = $this->getEntityManager();
-        $adherent = new Adherent($name, $surname, $type);
+        $adherent = new Adherent();
         $adherent->no = $no;
+        $adherent->name = $name;
+        $adherent->surname = $surname;
+        $adherent->actif = True;
+        $adherent->cf = 0;
+        $adherent->type = $type;
         if($type == 1){
             $adherent->price_categorie = 'A';
         } else {
@@ -49,5 +54,12 @@ class AdherentRepository extends \Doctrine\ORM\EntityRepository
         $em->flush();
     }
 
+
+    public function getNb() {
+        return $this->createQueryBuilder('l')
+            ->select('COUNT(l)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
 
