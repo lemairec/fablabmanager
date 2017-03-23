@@ -20,12 +20,13 @@ class Produit
      */
     public $id;
 
+
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    public $description;
+    public $name;
 
     /**
      * @var int

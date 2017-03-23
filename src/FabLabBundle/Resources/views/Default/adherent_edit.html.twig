@@ -3,39 +3,41 @@
 {% block body %}
 <div class="container bs-docs-container">
     <div class="container">
-        <form>
+        <form action="/adherent/edit" method="post">
             <div class="form-group row">
                 <label for="inputNo" class="col-sm-2 col-form-label">Numéro adhérent</label>
                 <div class="col-sm-10">
-                    <input class="form-control" id="inputNo" disabled value="{{adherent.no}}">
+                    <input class="form-control" name="inputNo" id="inputNo" {% if adherent.no != 0 %}disabled {% endif %}value="{{adherent.no}}">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="inputName" class="col-sm-2 col-form-label">Prénom</label>
                 <div class="col-sm-10">
-                    <input class="form-control" id="inputName" value="{{adherent.name}}">
+                    <input class="form-control" name="inputName" value="{{adherent.name}}">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="inputSurname" class="col-sm-2 col-form-label">Nom</label>
                 <div class="col-sm-10">
-                    <input class="form-control" id="inputSurname" value="{{adherent.surname}}">
+                    <input class="form-control" name="inputSurname" value="{{adherent.surname}}">
                 </div>
             </div>
             <div class="form-group row">
-                <label for="inputEmail1" class="col-sm-2 col-form-label">Email</label>
+                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
-                    <input type="email" class="form-control" id="inputEmail1" placeholder="Email">
+                    <input type="email" class="form-control" name="inputEmail" placeholder="Email">
                 </div>
             </div>
             <div class="form-group row">
                 <label for="inputCF" class="col-sm-2 col-form-label">CF</label>
                 <div class="col-sm-10">
-                    <input class="form-control" id="inputCF" placeholder="Email" disabled value="{{adherent.cf}}">
+                    <input class="form-control" id="inputCF" disabled value="{{adherent.cf}}">
                 </div>
             </div>
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
+    {% if adherent.no != 0 %} 
     <div class="container bs-docs-container">
         <div class="panel panel-default", style="width:100%">
             <!-- Default panel contents -->
@@ -65,4 +67,30 @@
             </table>
         </div>
     </div>
+    <div class="container bs-docs-container">
+        <div class="panel panel-default", style="width:100%">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                Achat
+                <button type="button" class="btn btn-primary" onclick="window.location.href='/achat/edit'">ADD</button>
+            </div>
+            <table class="table">
+                <tr>
+                    <th>Date</th>
+                    <th>Produit</th>
+                    <th>Qty</th>
+                    <th>Prix</th>
+                </tr>
+                {% for achat in achats %}
+                <tr>
+                    <td>{{achat.getDate()}}</td>
+                    <td>{{achat.produit.name}}</td>
+                    <td>{{achat.qty}} {{achat.produit.unite}}</td>
+                    <td>{{achat.price}} CF</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    {% endif %}
 {% endblock %}
