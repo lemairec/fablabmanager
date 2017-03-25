@@ -43,6 +43,14 @@ class Achat
     public $price;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="descriptif", type="string", length=255, nullable=true)
+     */
+    public $descriptif;
+
+
+    /**
      * @ORM\ManyToOne(targetEntity="FabLabBundle\Entity\Produit")
      * @ORM\JoinColumn(nullable=false)
      */

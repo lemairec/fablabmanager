@@ -8,6 +8,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use FabLabBundle\Entity\Adherent;
+use \DateTime;
+
 class InitbddCommand extends ContainerAwareCommand
 {
     protected function configure()
@@ -23,31 +26,62 @@ class InitbddCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $argument = $input->getArgument('argument');
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $adherentRepository = $em->getRepository('FabLabBundle:Adherent');
+
+        $fileName = '/Users/lemairec/Downloads/membres_csv.csv';
+        echo("toto");
+        if (($handle = fopen($fileName, "r")) !== FALSE) {
+            echo("toto");
+            $i = 0;
+            while (($data = fgetcsv($handle, null, ",")) !== FALSE) {
+                if ($i == 0) { $i = 1;continue; }
+                $rows = $data;
+                echo(var_dump($rows));
+                $adherent = new Adherent();
+                $adherent->no = $i;
+                $adherent->actif = true;
+                $adherent->surname = $rows[1];
+                $adherent->name = $rows[2];
+                $adherent->adresse = $rows[3];
+                $adherent->code_postal = $rows[4];
+                $adherent->city = $rows[5];
+                if(strlen($rows[6]) > 6){
+                    $adherent->birthday = DateTime::createFromFormat('d/m/Y', $rows[6]);
+                }
+                $adherent->sexe = $rows[7];
+                $adherent->activite = $rows[9];
+                $adherent->mail = $rows[10];
+                $adherent->fondateur = true;
+                $adherent->bureau = false;
+                $adherent->lettre_info = true;
+                $adherent->remarque = $rows[20];
+                if($adherent->sexe == "NA"){
+                    $adherent->type = "professionnel";
+                } else {
+                    $adherent->type = "particulier";
+                }
+                echo(var_dump($adherent));
+                $adherentRepository->save($adherent);
+                $i++;
+            }
+            fclose($handle);
+        }
 
         if ($input->getOption('option')) {
             // ...
         }
 
-        $em = $this->getContainer()->get('doctrine')->getEntityManager();
 
-        $adherentRepository = $em->getRepository('FabLabBundle:Adherent');
         $adhesionRepository = $em->getRepository('FabLabBundle:Adhesion');
         $produitRepository = $em->getRepository('FabLabBundle:Produit');
         $achatRepository = $em->getRepository('FabLabBundle:Achat');
-        $adherent = $adherentRepository->add(12, "Clément", "Lemaire", 1);
-        $adhesionRepository->add($adherent->no, "2010-01-01", 1);
-        $adherent = $adherentRepository->add(13, "", "NTN", 0);
-        $adhesionRepository->add($adherent->no, "2010-01-03", 100);
         $produitRepository->add(1000, "decoupeuse-laser", "A", 0.0, "min");
         $produitRepository->add(1101, "decoupeuse-laser", "B", 0.0, "min");
         $produitRepository->add(2011, "impression-3d-fdm-pla", "A", 0.09, "g");
         $produitRepository->add(2021, "impression-3d-fdm-abs", "A", 0.09, "g");
         $produitRepository->add(2031, "impression-3d-fdm-pet", "A", 0.09, "g");
         $produitRepository->add(2041, "impression-3d-fdm-flex", "A", 0.09, "g");
-        $achatRepository->add(12, 1000, "2010-01-01", 20);
-        $achatRepository->add(12, 2011, "2010-01-01", 20);
-        $adherentRepository->update_cf(12);
-        $adherentRepository->update_cf(13);
         $output->writeln('Command result.');
     }
 

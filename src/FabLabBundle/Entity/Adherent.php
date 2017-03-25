@@ -1,6 +1,8 @@
 <?php
 
 namespace FabLabBundle\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,25 +24,79 @@ class Adherent
 
     /**
      * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255)
      */
     public $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="surname", type="string", length=255)
+     * @ORM\Column(name="surname", type="string", length=255, nullable=true)
      */
     public $surname;
 
     /**
-     * @var int
+     * @var string
+     * @ORM\Column(name="adresse", type="string", length=255, nullable=true)
+     */
+    public $adresse;
+
+    /**
+     * @var string
+     * @ORM\Column(name="code_postal", type="string", length=5, nullable=true)
+     */
+    public $code_postal;
+    
+    /**
+     * @var string
+     * @ORM\Column(name="city", type="string", length=255, nullable=true)
+     */
+    public $city;
+
+    /**
+     * @var \Datetime 
+     * @ORM\Column(name="birthday", type="date", nullable=true)
+     */
+    public $birthday;
+    
+    /**
+     * @var string
+     * @ORM\Column(name="sexe", type="string", length=1, nullable=true)
+     */
+    public $sexe;
+    
+    /**
+     * @var string
+     * @ORM\Column(name="activite", type="string", length=255, nullable=true)
+     */
+    public $activite;
+    
+    /**
+     * @var string
+     * @ORM\Column(name="mail", type="string", length=255, nullable=true)
+     */
+    public $mail;
+    
+    /**
+     * @var bool
+     * @ORM\Column(name="fondateur", type="boolean")
+     */
+    public $fondateur;
+
+    /**
+     * @var string
      *
-     * @ORM\Column(name="type", type="integer", unique=false)
+     * @ORM\Column(name="type", type="string", length=255)
      */
     public $type;
     
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="remarque", type="string", length=255)
+     */
+    public $remarque;
+    
+
     /**
      * @var int
      *
@@ -52,21 +108,30 @@ class Adherent
 
     /**
      * @var bool
-     *
      * @ORM\Column(name="actif", type="boolean", unique=false)
      */
     public $actif;
 
     /**
+     * @var bool
+     * @ORM\Column(name="bureau", type="boolean")
+     */
+    public $bureau;
+
+    /**
+     * @var bool
+     * @ORM\Column(name="lettre_info", type="boolean")
+     */
+    public $lettre_info;
+
+    /**
      * @var \Datetime 
-     *
      * @ORM\Column(name="end_adhesion", type="date", nullable=true)
      */
     public $end_adhesion;
 
     /**
      * @var float
-     *
      * @ORM\Column(name="cf", type="float")
      */
     public $cf;

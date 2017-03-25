@@ -16,28 +16,34 @@ class AdhesionRepository extends \Doctrine\ORM\EntityRepository
         $em = $this->getEntityManager();
         $adherent = $em->getRepository('FabLabBundle:Adherent')->findOneByNo($adherent_no);
         $adhesion = new Adhesion();
+        $adhesion->adherent = $adherent;
         $adhesion->date = new Datetime($date);
-        if($adherent->type == 0){
-            $type = 0;
-        }
         $adhesion->type = $type;
-        if($type == 0){
+        $this->save($adhesion);
+    }
+
+    function save($adhesion){
+        $em = $this->getEntityManager();
+        if($adhesion->adherent->type == "professionnel"){
+            $adhesion->type = "professionnel";
+        }
+        if($adhesion->type == "professionnel"){
             $adhesion->price = 100;
             $adhesion->cf = 32;
-        } else if($type == 1){
+        } else if($adhesion->type == "particulier"){
             $adhesion->price = 30;
             $adhesion->cf = 16;
         } else {
             $adhesion->price = 15;
             $adhesion->cf = 16;
         }
-        $adhesion->adherent = $adherent;
+        $adherent = $adhesion->adherent;
         $adherent->end_adhesion = new Datetime($adhesion->date->format('Y-m-d'));
         $adherent->end_adhesion->modify("+1 year");
         $em->persist($adhesion);
         $em->persist($adherent);
         $em->flush();
-        $em->getRepository('FabLabBundle:Adherent')->update_cf($adherent_no);
+        $em->getRepository('FabLabBundle:Adherent')->update_cf($adherent->no);
     }
 
     function getAllForAdherent($adherentId){

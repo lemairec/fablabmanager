@@ -3,6 +3,9 @@
 namespace FabLabBundle\Repository;
 use FabLabBundle\Entity\Adherent;
 
+use Symfony\Component\Console\Logger\ConsoleLogger;
+
+
 /**
  * AdherentRepository
  *
@@ -12,44 +15,57 @@ use FabLabBundle\Entity\Adherent;
 class AdherentRepository extends \Doctrine\ORM\EntityRepository
 {
     function add($no, $name, $surname, $type){
-        $em = $this->getEntityManager();
         $adherent = new Adherent();
         $adherent->no = $no;
         $adherent->name = $name;
         $adherent->surname = $surname;
-        $adherent->actif = True;
-        $adherent->cf = 0;
         $adherent->type = $type;
-        if($type == 1){
+        $adherent->actif = true;
+        $adherent->fondateur = false;
+        $this->save($adherent);
+        return $adherent;
+    }
+
+    function save($adherent){
+        $em = $this->getEntityManager();
+        $adherent->cf = 0;
+        if($adherent->type == "particulier"){
             $adherent->price_categorie = 'A';
         } else {
             $adherent->price_categorie = 'B';
         }
         $em->persist($adherent);
         $em->flush();
-        return $adherent;
+        $this->update_cf($adherent->no);
     }
 
     function update_cf($adherent_no){
         $em = $this->getEntityManager();
         $adhesionRep = $em->getRepository('FabLabBundle:Adhesion');
-        $query = $adhesionRep->createQueryBuilder('p')
+        $adhesion_cf = $adhesionRep->createQueryBuilder('p')
              ->select("sum(p.cf)")
             ->where('p.adherent = :adherent')
             ->setParameter('adherent', $adherent_no)
-            ->getQuery();
-        $adhesion_cf = floatval($query->getResult()[0][1]);
+            ->getQuery()
+            ->getSingleScalarResult();
         $achatRep = $em->getRepository('FabLabBundle:Achat');
-        $query = $achatRep->createQueryBuilder('p')
+        $achat_cf = $achatRep->createQueryBuilder('p')
              ->select("sum(p.price)")
             ->where('p.adherent = :adherent')
             ->setParameter('adherent', $adherent_no)
-            ->getQuery();
-        $achat_cf = floatval($query->getResult()[0][1]);
-        echo($adhesion_cf);
-        echo($achat_cf);
+            ->getQuery()
+            ->getSingleScalarResult();
+        $rechargementRep = $em->getRepository('FabLabBundle:Rechargement');
+        $rechargement_cf = $rechargementRep->createQueryBuilder('p')
+            ->select("sum(p.cf)")
+            ->where('p.adherent = :adherent')
+            ->setParameter('adherent', $adherent_no)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        print($adhesion_cf." ".$achat_cf." ".$rechargement_cf);
         $adherent = $this->findOneByNo($adherent_no);
-        $adherent->cf = $adhesion_cf - $achat_cf;
+        $adherent->cf = $adhesion_cf + $rechargement_cf - $achat_cf;
         $em->persist($adherent);
         $em->flush();
     }

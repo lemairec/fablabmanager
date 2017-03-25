@@ -37,6 +37,7 @@ class AchatType extends AbstractType
 
         }
         $builder->add('qty');
+        $builder->add('descriptif');
         $builder->add('save',      SubmitType::class, array('label' => 'Save'));
     }
 

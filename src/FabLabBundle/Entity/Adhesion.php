@@ -57,5 +57,8 @@ class Adhesion
     public $cf;
 
 
+    function getDateStr(){
+        return $this->date->format(' d/m/Y'); // for example
+    }
 }
 
