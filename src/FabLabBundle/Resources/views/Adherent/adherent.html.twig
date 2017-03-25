@@ -1,0 +1,17 @@
+{% extends 'FabLabBundle:Adherent:adherent_base.html.twig' %}
+
+{% block container %}
+<ul>
+    {{adherent.name}}</br>
+    {{adherent.surname}}</br>
+    {{adherent.adresse}}</br>
+    {{adherent.code_postal}} {{adherent.city}}</br>
+    </br>
+    Fin adhesion {{adherent.get_end_adhesion()}}</br>
+    </br>
+    CF {{adherent.cf}}</br>
+ </ul> 
+
+{% endblock %}
+
+

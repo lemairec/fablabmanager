@@ -77,5 +77,38 @@ class AdherentRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function getNbActif() {
+        return $this->createQueryBuilder('l')
+            ->select('COUNT(l)')
+            ->where('l.actif = true')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function getNbBureau() {
+        return $this->createQueryBuilder('l')
+            ->select('COUNT(l)')
+            ->where('l.bureau = true')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function getNbCa() {
+        return $this->createQueryBuilder('l')
+            ->select('COUNT(l)')
+            ->where('l.ca = true')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function getNbInfo() {
+        return $this->createQueryBuilder('l')
+            ->select('COUNT(l)')
+            ->where('l.lettre_info = true')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 }
 

@@ -120,6 +120,13 @@ class Adherent
 
     /**
      * @var bool
+     * @ORM\Column(name="ca", type="boolean")
+     */
+    public $ca;
+
+    /**
+    /**
+     * @var bool
      * @ORM\Column(name="lettre_info", type="boolean")
      */
     public $lettre_info;

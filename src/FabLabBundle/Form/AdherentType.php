@@ -22,17 +22,29 @@ class AdherentType extends AbstractType
         $builder->add('no')
             ->add('name')
             ->add('surname')
+            ->add('adresse')
+            ->add('code_postal')
             ->add('city')
+            ->add('birthday', DateType::class)
+            ->add('sexe',       ChoiceType::class, array(
+                'choices'  => array(
+                    'M'=>'M','F'=>'F','N'=>'N'
+                ),
+            ))
+            ->add('activite')
+            ->add('mail')
+            ->add('fondateur')
             ->add('type',       ChoiceType::class, array(
                 'choices'  => array(
                     'particulier' =>'particulier',
                     'professionnel' => 'professionnel',
                 ),
             ))
-            ->add('price_categorie', TextType::class, array('disabled' => true))
             ->add('actif')
-            ->add('end_adhesion', DateType::class, array('disabled' => true))
-            ->add('cf', NumberType::class, array('disabled' => true));
+            ->add('bureau')
+            ->add('lettre_info')
+            ->add('remarque')
+        ;
         $builder->add('save',      SubmitType::class, array('label' => 'Save'));
     }
     

@@ -21,14 +21,18 @@ use Datetime;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="home")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $nb_adherents = $em->getRepository('FabLabBundle:Adherent')->getNb();
-        return $this->render('FabLabBundle:Default:index.html.twig', array(
-            'nb_adherents' => $nb_adherents
+        $repAdherents = $em->getRepository('FabLabBundle:Adherent');
+        return $this->render('FabLabBundle:Default:home.html.twig', array(
+            'nb_adherents' => $repAdherents->getNb(),
+            'nb_adherents_actif' => $repAdherents->getNbActif(),
+            'nb_adherents_bureau' => $repAdherents->getNbBureau(),
+            'nb_adherents_ca' => $repAdherents->getNbCa(),
+            'nb_adherents_info' => $repAdherents->getNbInfo(),
         ));
     }
 
@@ -183,7 +187,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/adherent/edit/{adherent_no}", name="adherent")
+     * @Route("/adherent/edit/{adherent_no}", name="adherent2")
      */
     public function adherentEditAction($adherent_no, Request $request)
     {
@@ -214,6 +218,8 @@ class DefaultController extends Controller
             'rechargements' => $rechargements
         ));
     }
+    
+    
 
     /**
      * @Route("/init")

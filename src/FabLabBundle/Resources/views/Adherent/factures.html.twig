@@ -1,0 +1,27 @@
+{% extends 'FabLabBundle:Adherent:adherent_base.html.twig' %}
+
+{% block container %}
+<div class="panel panel-default", style="width:100%">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        Facture
+        <!--button type="button" class="btn btn-primary" onclick="window.location.href='/facture/edit/0?adherent_no={{adherent.no}}'">ADD</button-->
+    </div>
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>CF</th>
+        </tr>
+        {% for facture in factures %}
+        <tr>
+            <td>{{facture.getDateStr()}}</td>
+            <td>{{facture.cf}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+
+{% endblock %}
+
+

@@ -54,6 +54,7 @@ class InitbddCommand extends ContainerAwareCommand
                 $adherent->mail = $rows[10];
                 $adherent->fondateur = true;
                 $adherent->bureau = false;
+                $adherent->ca = false;
                 $adherent->lettre_info = true;
                 $adherent->remarque = $rows[20];
                 if($adherent->sexe == "NA"){
