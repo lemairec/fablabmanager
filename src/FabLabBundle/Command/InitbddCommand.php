@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use FabLabBundle\Entity\Adherent;
+use FabLabBundle\Entity\Rechargement;
 use \DateTime;
 
 class InitbddCommand extends ContainerAwareCommand
@@ -64,6 +65,15 @@ class InitbddCommand extends ContainerAwareCommand
                 }
                 echo(var_dump($adherent));
                 $adherentRepository->save($adherent);
+                $pricestr = str_replace(",", ".", $rows[18]);
+                $cf = floatval($pricestr);
+                $rechargement = new Rechargement();
+                $rechargement->cf = $cf;
+                $rechargement->adherent = $adherent;
+                $rechargement->date = new DateTime("2017-01-01");
+                $em->persist($rechargement);
+                $em->flush();
+                $adherentRepository->update_cf($adherent->no);
                 $i++;
             }
             fclose($handle);
