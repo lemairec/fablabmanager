@@ -12,3 +12,5 @@ php bin/console generate:bundle
 
 php bin/console server:start
 
+SELECT * FROM produit p LEFT JOIN (SELECT produit_id, sum(`price`) FROM `achat` group by produit_id) d ON d.produit_id = p.id
+

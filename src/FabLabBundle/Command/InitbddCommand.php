@@ -24,14 +24,11 @@ class InitbddCommand extends ContainerAwareCommand
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $argument = $input->getArgument('argument');
+    protected function importAdherents(){
         $em = $this->getContainer()->get('doctrine')->getEntityManager();
         $adherentRepository = $em->getRepository('FabLabBundle:Adherent');
 
         $fileName = '/Users/lemairec/Downloads/membres_csv.csv';
-        echo("toto");
         if (($handle = fopen($fileName, "r")) !== FALSE) {
             echo("toto");
             $i = 0;
@@ -78,22 +75,47 @@ class InitbddCommand extends ContainerAwareCommand
             }
             fclose($handle);
         }
+    }
 
-        if ($input->getOption('option')) {
-            // ...
-        }
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $argument = $input->getArgument('argument');
+        $em = $this->getContainer()->get('doctrine')->getEntityManager();
+        $adherentRepository = $em->getRepository('FabLabBundle:Adherent');
 
-
-        $adhesionRepository = $em->getRepository('FabLabBundle:Adhesion');
         $produitRepository = $em->getRepository('FabLabBundle:Produit');
-        $achatRepository = $em->getRepository('FabLabBundle:Achat');
         $produitRepository->add(1000, "decoupeuse-laser", "A", 0.0, "min");
-        $produitRepository->add(1101, "decoupeuse-laser", "B", 0.0, "min");
-        $produitRepository->add(2011, "impression-3d-fdm-pla", "A", 0.09, "g");
-        $produitRepository->add(2021, "impression-3d-fdm-abs", "A", 0.09, "g");
-        $produitRepository->add(2031, "impression-3d-fdm-pet", "A", 0.09, "g");
-        $produitRepository->add(2041, "impression-3d-fdm-flex", "A", 0.09, "g");
+        $produitRepository->add(1100, "decoupeuse-laser", "B", 0.0, "min");
+        $produitRepository->add(2000, "plotter-2d-black", "A", 7.0, "m");
+        $produitRepository->add(2001, "plotter-2d-color", "A", 8.0, "m");
+        $produitRepository->add(2100, "plotter-2d-black", "B", 14.0, "min");
+        $produitRepository->add(2002, "plotter-2d-color", "B", 16.0, "m");
+        $produitRepository->add(3000, "impression-3d-fdm-pla", "A", 0.09, "g");
+        $produitRepository->add(3001, "impression-3d-fdm-abs", "A", 0.09, "g");
+        $produitRepository->add(3002, "impression-3d-fdm-pet", "A", 0.09, "g");
+        $produitRepository->add(3003, "impression-3d-fdm-flex", "A", 0.09, "g");
+        $produitRepository->add(3100, "impression-3d-fdm", "B", 4, "h");
+        $produitRepository->add(4000, "impression-3d-resine-standard", "A", 0.44, "ml");
+        $produitRepository->add(4001, "impression-3d-resine-dure", "A", 0.55, "ml");
+        $produitRepository->add(4002, "impression-3d-resine-flexible", "A", 0.56, "ml");
+        $produitRepository->add(4003, "impression-3d-resine-calcinable", "A", 0.78, "ml");
+        $produitRepository->add(4100, "impression-3d-resine-standard", "B", 0.88, "ml");
+        $produitRepository->add(4101, "impression-3d-resine-dure", "B", 1.10, "ml");
+        $produitRepository->add(4102, "impression-3d-resine-flexible", "B", 1.12, "ml");
+        $produitRepository->add(4103, "impression-3d-resine-calcinable", "B", 1.56, "ml");
+        $produitRepository->add(5000, "soudure", "A", 0.5, "forfait");
+        $produitRepository->add(5001, "soudure", "B", 1.0, "forfait");
+        $produitRepository->add(6000, "fraiseuse", "A", 2, "15 min");
+        $produitRepository->add(6001, "fraiseuse", "B", 8, "15 min");
+        $produitRepository->add(7000, "tour", "A", 2, "15 min");
+        $produitRepository->add(7001, "tour", "B", 6, "15 min");
+        $produitRepository->add(8000, "brodeuse", "A", 0.13, "m de fils");
+        $produitRepository->add(8001, "brodeuse", "B", 0.26, "m de fils");
         $output->writeln('Command result.');
+
+        $this->importAdherents();
+        $adhesionRepository = $em->getRepository('FabLabBundle:Adhesion');
+        $achatRepository = $em->getRepository('FabLabBundle:Achat');
     }
 
 }

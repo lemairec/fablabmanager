@@ -20,6 +20,12 @@ class AdherentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('no')
+            ->add('type',       ChoiceType::class, array(
+                'choices'  => array(
+                    'particulier' =>'particulier',
+                    'professionnel' => 'professionnel',
+                ),
+            ))
             ->add('name')
             ->add('surname')
             ->add('adresse')
@@ -34,14 +40,9 @@ class AdherentType extends AbstractType
             ->add('activite')
             ->add('mail')
             ->add('fondateur')
-            ->add('type',       ChoiceType::class, array(
-                'choices'  => array(
-                    'particulier' =>'particulier',
-                    'professionnel' => 'professionnel',
-                ),
-            ))
             ->add('actif')
             ->add('bureau')
+            ->add('ca')
             ->add('lettre_info')
             ->add('remarque')
         ;

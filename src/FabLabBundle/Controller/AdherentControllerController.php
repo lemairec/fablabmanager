@@ -29,7 +29,7 @@ class AdherentControllerController extends Controller
 
         if ($form->isValid()) {
             $em->getRepository('FabLabBundle:Adherent')->save($adherent);
-            return $this->redirectToRoute('adherent', array('adherent_no' => $adherent_no));
+            return $this->redirectToRoute('adherent', array('adherent_no' => $adherent->no));
         }
     
         $em = $this->getDoctrine()->getManager();
