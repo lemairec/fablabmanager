@@ -1,7 +1,10 @@
 <?php
 
 namespace FabLabBundle\Repository;
+
+use Doctrine\ORM\Query\ResultSetMapping;
 use FabLabBundle\Entity\Achat;
+use FabLabBundle\Entity\Produit;
 use \DateTime;
 
 /**
@@ -36,5 +39,14 @@ class AchatRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
 
         return $query->getResult();
+    }
+
+    function getBilan(){
+        $em = $this->getEntityManager();
+        $connection = $em->getConnection();
+        $statement = $connection->prepare(" SELECT * FROM produit p LEFT JOIN (SELECT produit_id, sum(`price`) as sum_price, sum(`qty`) as sum_qty FROM `achat` group by produit_id) d ON d.produit_id = p.id");
+        $statement->execute();
+        $results = $statement->fetchAll();
+        return $results;
     }
 }

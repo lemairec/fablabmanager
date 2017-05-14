@@ -227,7 +227,7 @@ class DefaultController extends Controller
             $em->getRepository('FabLabBundle:Adherent')->save($adherent);
             return $this->redirectToRoute('adherent', array('adherent_no' => $adherent_no));
         }
-    
+
         $em = $this->getDoctrine()->getManager();
         $adhesions = $em->getRepository('FabLabBundle:Adhesion')->getAllForAdherent($adherent_no);
         $achats = $em->getRepository('FabLabBundle:Achat')->getAllForAdherent($adherent_no);
@@ -240,17 +240,20 @@ class DefaultController extends Controller
             'rechargements' => $rechargements
         ));
     }
-    
-    
 
     /**
-     * @Route("/init")
+     * @Route("/bilan")
      */
     public function initAction()
     {
-        return $this->redirectToRoute('homepage');
+        $em = $this->getDoctrine()->getManager();
+        $res = $em->getRepository('FabLabBundle:Achat')->getBilan();
+        //echo(var_dump($results));
+        return $this->render('FabLabBundle:Default:bilan.html.twig', array(
+            'res' => $res,
+        ));
     }
-    
+
     /**
      * @Route("/api/stat_adherents")
      */

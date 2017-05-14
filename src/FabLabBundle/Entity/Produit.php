@@ -31,7 +31,7 @@ class Produit
     /**
      * @var int
      *
-     * @ORM\Column(name="type", type="string", length=1)
+     * @ORM\Column(name="categorie", type="string", length=1)
      */
     public $categorie;
 
